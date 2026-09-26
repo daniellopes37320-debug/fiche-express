@@ -3,113 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Générateur de Fiche Produit IA</title>
-  <!-- Inclusion de Marked.js pour le rendu Markdown -->
+  <title>CopySaaS — Générateur e-Commerce IA</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151c2c;
+      --border: #232d42;
+      --accent: #0284c7;
+      --accent-hover: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
     body { 
-      font-family: system-ui, -apple-system, sans-serif; 
-      background: #0f172a; 
-      color: #f8fafc; 
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
+      background-color: var(--bg); 
+      color: var(--text); 
       display: flex; 
       justify-content: center; 
-      padding: 40px 20px; 
+      padding: 40px 16px; 
       margin: 0;
+      min-height: 100vh;
     }
+
     .card { 
-      background: #1e293b; 
-      padding: 30px; 
-      border-radius: 12px; 
+      background: var(--card-bg); 
+      padding: 36px; 
+      border-radius: 16px; 
       width: 100%; 
-      max-width: 750px; 
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+      max-width: 800px; 
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5); 
     }
-    h1 { color: #38bdf8; margin-top: 0; font-size: 24px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #94a3b8; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(2, 132, 199, 0.15);
+      color: var(--accent-hover);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 { 
+      color: #fff; 
+      margin: 0 0 24px 0; 
+      font-size: 26px; 
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    label { 
+      display: block; 
+      margin-bottom: 8px; 
+      font-weight: 600; 
+      font-size: 13px; 
+      color: var(--text-muted); 
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     input, textarea { 
       width: 100%; 
-      padding: 12px; 
-      border-radius: 8px; 
-      border: 1px solid #334155; 
+      padding: 14px; 
+      border-radius: 10px; 
+      border: 1px solid var(--border); 
       background: #0f172a; 
       color: #fff; 
       box-sizing: border-box; 
-      margin-bottom: 16px; 
+      margin-bottom: 20px; 
+      font-family: inherit;
       font-size: 14px;
+      transition: all 0.2s ease;
     }
-    textarea { height: 120px; resize: vertical; }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-hover);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    textarea { height: 110px; resize: vertical; }
+
     .btn-main { 
-      background: #38bdf8; 
-      color: #0f172a; 
-      font-weight: bold; 
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); 
+      color: #fff; 
+      font-weight: 600; 
       border: none; 
       padding: 14px 20px; 
-      border-radius: 8px; 
+      border-radius: 10px; 
       cursor: pointer; 
       width: 100%; 
-      font-size: 16px; 
-      transition: background 0.2s;
+      font-size: 15px; 
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
     }
-    .btn-main:hover { background: #7dd3fc; }
-    
+
+    .btn-main:hover { 
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      transform: translateY(-1px);
+    }
+
     .actions {
       display: flex;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 24px;
     }
+
     .btn-secondary {
       flex: 1;
-      background: #334155;
-      color: #f8fafc;
-      border: 1px solid #475569;
-      padding: 10px 15px;
-      border-radius: 8px;
+      background: #0f172a;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 600;
       font-size: 14px;
-      transition: all 0.2s;
-      display: none; /* Masqué jusqu'à ce qu'une fiche soit générée */
+      transition: all 0.2s ease;
+      display: none;
     }
+
     .btn-secondary:hover {
-      background: #475569;
-      color: #38bdf8;
+      background: #1e293b;
+      color: #fff;
+      border-color: #475569;
     }
 
     #result { 
-      margin-top: 20px; 
-      padding: 20px; 
+      margin-top: 24px; 
+      padding: 24px; 
       background: #0f172a; 
-      border-radius: 8px; 
-      border-left: 4px solid #38bdf8; 
-      line-height: 1.6;
+      border-radius: 12px; 
+      border: 1px solid var(--border); 
+      line-height: 1.7;
       font-size: 15px;
+      color: #cbd5e1;
     }
 
-    /* Style du contenu HTML généré */
-    #result h1, #result h2, #result h3 { color: #38bdf8; margin-top: 20px; margin-bottom: 10px; }
-    #result h3 { font-size: 18px; border-bottom: 1px solid #334155; padding-bottom: 5px; }
+    #result h1, #result h2, #result h3 { color: #fff; margin-top: 24px; margin-bottom: 12px; font-weight: 700; }
+    #result h3 { font-size: 18px; color: var(--accent-hover); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
     #result ul { padding-left: 20px; }
-    #result li { margin-bottom: 6px; }
-    #result p { margin-bottom: 12px; }
-    #result strong { color: #f1f5f9; }
-    #result hr { border: none; border-top: 1px solid #334155; margin: 20px 0; }
+    #result li { margin-bottom: 8px; }
+    #result strong { color: #fff; }
+    #result hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Générateur de Fiche Produit E-commerce</h1>
+    <span class="badge">IA E-commerce & SEO</span>
+    <h1>Générateur de Fiches Produits</h1>
     
-    <label for="apiKey">Clé API Gemini :</label>
-    <input type="password" id="apiKey" placeholder="Colle ta clé API Gemini ici (ex: AIzaSy...)" />
+    <label for="apiKey">Clé API Gemini</label>
+    <input type="password" id="apiKey" placeholder="Colle ta clé API Gemini..." />
 
-    <label for="prompt">Description ou lien de ton produit :</label>
-    <textarea id="prompt" placeholder="Ex: Une gourde isotherme en inox de 750ml qui garde le froid pendant 24h, couleur noir mat..."></textarea>
+    <label for="prompt">Description du produit</label>
+    <textarea id="prompt" placeholder="Ex: Gourde isotherme en inox 750ml, noir mat, garde le froid 24h..."></textarea>
     
     <button class="btn-main" onclick="generateText()">Générer la Fiche Produit</button>
 
-    <!-- Boutons d'action : Copier & Télécharger -->
     <div class="actions">
-      <button id="copyBtn" class="btn-secondary" onclick="copyResult()">📋 Copier la fiche</button>
+      <button id="copyBtn" class="btn-secondary" onclick="copyResult()">📋 Copier le texte</button>
       <button id="downloadBtn" class="btn-secondary" onclick="downloadResult()">📥 Télécharger (.txt)</button>
     </div>
 
@@ -117,7 +178,7 @@
   </div>
 
   <script>
-    let rawGeneratedText = ""; // Stocke le texte brut pour la copie et le téléchargement
+    let rawGeneratedText = "";
 
     async function generateText() {
       const apiKey = document.getElementById("apiKey").value.trim();
@@ -126,10 +187,10 @@
       const copyBtn = document.getElementById("copyBtn");
       const downloadBtn = document.getElementById("downloadBtn");
 
-      if (!apiKey) { alert("Merci de renseigner ta clé API !"); return; }
-      if (!productInput) { alert("Saisis une description de produit !"); return; }
+      if (!apiKey) { alert("Ajoute ta clé API !"); return; }
+      if (!productInput) { alert("Saisis un produit !"); return; }
       
-      resultDiv.innerHTML = "<em>Génération de la fiche produit par l'IA en cours...</em>";
+      resultDiv.innerHTML = "<em>Génération en cours par l'IA...</em>";
       copyBtn.style.display = "none";
       downloadBtn.style.display = "none";
 
@@ -183,14 +244,9 @@ Voici le produit : ${productInput}`;
             success = true;
           } else {
             rawGeneratedText = data.candidates[0].content.parts[0].text;
-            
-            // 1. Rendu Markdown propre via Marked.js
             resultDiv.innerHTML = marked.parse(rawGeneratedText);
-            
-            // Affichage des boutons d'actions
             copyBtn.style.display = "block";
             downloadBtn.style.display = "block";
-            
             success = true;
           }
         } catch (error) {
@@ -202,20 +258,15 @@ Voici le produit : ${productInput}`;
       }
     }
 
-    // 2. Fonction de copie dans le presse-papier
     function copyResult() {
       if (!rawGeneratedText) return;
       navigator.clipboard.writeText(rawGeneratedText).then(() => {
         const copyBtn = document.getElementById("copyBtn");
-        const originalText = copyBtn.innerText;
         copyBtn.innerText = "✅ Copié !";
-        setTimeout(() => { copyBtn.innerText = originalText; }, 2000);
-      }).catch(err => {
-        alert("Erreur lors de la copie.");
+        setTimeout(() => { copyBtn.innerText = "📋 Copier le texte"; }, 2000);
       });
     }
 
-    // 3. Fonction de téléchargement du fichier texte (.txt)
     function downloadResult() {
       if (!rawGeneratedText) return;
       const blob = new Blob([rawGeneratedText], { type: "text/plain;charset=utf-8" });
