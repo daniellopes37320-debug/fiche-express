@@ -1,169 +1,172 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="rxfQYGXHYQb5CqS_GMXdOyBW-28LTlv2RyfgUf0Vyl0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CopySaaS – Générateur e-Commerce IA</title>
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0b0f19;
-      --card-bg: #151c2c;
-      --border: #232d42;
-      --accent: #0284c7;
-      --accent-hover: #38bdf8;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-    }
 
-    body { 
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
-      background-color: var(--bg); 
-      color: var(--text); 
-      display: flex; 
-      justify-content: center; 
-      padding: 40px 16px; 
-      margin: 0;
-      min-height: 100vh;
-    }
+    <!-- Vercel Speed Insights & Analytics -->
+    <script>
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 
-    .card { 
-      background: var(--card-bg); 
-      padding: 36px; 
-      border-radius: 16px; 
-      width: 100%; 
-      max-width: 800px; 
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5); 
-    }
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0b0f19;
+        --card-bg: #151c2c;
+        --border: #232d42;
+        --accent: #0284c7;
+        --accent-hover: #38bdf8;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+      }
 
-    .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(2, 132, 199, 0.15);
-      color: var(--accent-hover);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
+      body { 
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
+        background-color: var(--bg); 
+        color: var(--text); 
+        display: flex; 
+        justify-content: center; 
+        padding: 40px 16px; 
+        margin: 0;
+        min-height: 100vh;
+      }
 
-    h1 { 
-      color: #fff; 
-      margin: 0 0 24px 0; 
-      font-size: 26px; 
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
+      .card { 
+        background: var(--card-bg); 
+        padding: 36px; 
+        border-radius: 16px; 
+        width: 100%; 
+        max-width: 800px; 
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5); 
+      }
 
-    label { 
-      display: block; 
-      margin-bottom: 8px; 
-      font-weight: 600; 
-      font-size: 13px; 
-      color: var(--text-muted); 
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+      .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(2, 132, 199, 0.15);
+        color: var(--accent-hover);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
 
-    input, textarea { 
-      width: 100%; 
-      padding: 14px; 
-      border-radius: 10px; 
-      border: 1px solid var(--border); 
-      background: #0f172a; 
-      color: #fff; 
-      box-sizing: border-box; 
-      margin-bottom: 20px; 
-      font-family: inherit;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    }
+      h1 { 
+        color: #fff; 
+        margin: 0 0 24px 0; 
+        font-size: 26px; 
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
 
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent-hover);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-    }
+      label { 
+        display: block; 
+        margin-bottom: 8px; 
+        font-weight: 600; 
+        font-size: 13px; 
+        color: var(--text-muted); 
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
 
-    textarea { height: 110px; resize: vertical; }
+      input, textarea { 
+        width: 100%; 
+        padding: 14px; 
+        border-radius: 10px; 
+        border: 1px solid var(--border); 
+        background: #0f172a; 
+        color: #fff; 
+        box-sizing: border-box; 
+        margin-bottom: 20px; 
+        font-family: inherit;
+        font-size: 14px;
+        transition: all 0.2s ease;
+      }
 
-    .btn-main { 
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); 
-      color: #fff; 
-      font-weight: 600; 
-      border: none; 
-      padding: 14px 20px; 
-      border-radius: 10px; 
-      cursor: pointer; 
-      width: 100%; 
-      font-size: 15px; 
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
-    }
+      input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--accent-hover);
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+      }
 
-    .btn-main:hover { 
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      transform: translateY(-1px);
-    }
+      textarea { height: 110px; resize: vertical; }
 
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
+      .btn-main { 
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); 
+        color: #fff; 
+        font-weight: 600; 
+        border: none; 
+        padding: 14px 20px; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        width: 100%; 
+        font-size: 15px; 
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+      }
 
-    .btn-secondary {
-      flex: 1;
-      background: #0f172a;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: 12px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s ease;
-      display: none;
-    }
+      .btn-main:hover { 
+        background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+        transform: translateY(-1px);
+      }
 
-    .btn-secondary:hover {
-      background: #1e293b;
-      color: #fff;
-      border-color: #475569;
-    }
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+      }
 
-    #result { 
-      margin-top: 24px; 
-      padding: 24px; 
-      background: #0f172a; 
-      border-radius: 12px; 
-      border: 1px solid var(--border); 
-      line-height: 1.7;
-      font-size: 15px;
-      color: #cbd5e1;
-    }
+      .btn-secondary {
+        flex: 1;
+        background: #0f172a;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        padding: 12px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        display: none;
+      }
 
-    #result h1, #result h2, #result h3 { color: #fff; margin-top: 24px; margin-bottom: 12px; font-weight: 700; }
-    #result h3 { font-size: 18px; color: var(--accent-hover); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    #result ul { padding-left: 20px; }
-    #result li { margin-bottom: 8px; }
-    #result strong { color: #fff; }
-    #result hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-  </style>
+      .btn-secondary:hover {
+        background: #1e293b;
+        color: #fff;
+        border-color: #475569;
+      }
+
+      #result { 
+        margin-top: 24px; 
+        padding: 24px; 
+        background: #0f172a; 
+        border-radius: 12px; 
+        border: 1px solid var(--border); 
+        line-height: 1.7;
+        font-size: 15px;
+        color: #cbd5e1;
+      }
+
+      #result h1, #result h2, #result h3 { color: #fff; margin-top: 24px; margin-bottom: 12px; font-weight: 700; }
+      #result h3 { font-size: 18px; color: var(--accent-hover); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+      #result ul { padding-left: 20px; }
+      #result li { margin-bottom: 8px; }
+      #result strong { color: #fff; }
+      #result hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    </style>
 </head>
 <body>
   <div class="card">
