@@ -226,7 +226,33 @@
       copyBtn.style.display = "none";
       downloadBtn.style.display = "none";
 
-      const systemPrompt = `Tu es un expert mondial en copywriting e-commerce et en SEO. Analyse le produit (à partir du texte et/ou de l'image fournie) pour deviner la cible idéale, le ton le plus adapté et les arguments de vente percutants.
+      const systemPrompt = `Tu es un copywriter e-commerce professionnel chevronné. Ton objectif est de rédiger une fiche produit percutante, crédible et naturelle, comme le ferait une marque D2C haut de gamme.
+
+RÈGLES D'ÉCRITURE STRICTES (TON HUMAIN, SÉRIEUX & CONCRET) :
+1. ÉVITE ABSOLUMENT les clichés et buzzwords d'IA : "Révolutionnez", "Plongez dans", "Inégalé", "Sublimez", "Que vous soyez...", "Ne cherchez plus", "L'expérience ultime", "Incontournable".
+2. Écris de manière directe, moderne et réaliste. Pas d'enthousiasme artificiel ou de superlatifs exagérés.
+3. Concentre-toi sur des bénéfices concrets, des usages réels et la résolution de problèmes réels pour le client.
+4. Le ton doit être fluide, élégant et convaincant sans faire "vendeur de tapis".
+
+Restitue le tout selon cette structure exacte :
+
+### 1. SEO & Métadonnées
+- Balise Title (max 60 caractères) : 
+- Meta Description (max 155 caractères) : 
+- URL Slug suggéré : 
+
+### 2. Fiche Produit E-commerce (Site Web)
+- Titre H1 du produit : 
+- Accroche (2-3 lignes percutantes et crédibles) : 
+- Les 3 bénéfices clés (Focus usage & problème résolu) :
+- Description détaillée (2 paragraphes fluides, ton de marque professionnel) : 
+- Caractéristiques techniques (Liste claire) : 
+
+### 3. Réseaux Sociaux & Publicités
+- Post Instagram / TikTok (Légende naturelle, ton pro, émojis modérés) : 
+- Accroche publicitaire (Format Meta Ads direct et vendeur) : 
+
+Voici les informations textuelles fournies par l'utilisateur : ${productInput || "Aucune description fournie, analyse l'image."}`;
 
 Restitue le tout selon cette structure exacte :
 
