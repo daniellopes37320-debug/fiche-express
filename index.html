@@ -244,11 +244,11 @@
     </div>
     <p class="help-text">
       🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Obtenir une clé gratuite Gemini sur Google AI Studio</a><br>
-      🔒 <em>Votre clé est stockée uniquement sur votre navigateur (localStorage). Aucun serveur tiers n'y a accès.</em>
+      🔒 <em>Ta clé est stockée uniquement dans ton navigateur (localStorage). Aucun serveur tiers n'y a accès.</em>
     </p>
 
     <label for="prompt">Description du produit (optionnelle si image)</label>
-    <textarea id="prompt" placeholder="Ex: Gourde isotherme en inox 750ml, noir mat, garde au froid 24h..."></textarea>
+    <textarea id="prompt" placeholder="Ex : Gourde isotherme en inox 750ml, noir mat, garde au froid 24h..."></textarea>
 
     <label for="imageInput">Photo du produit (optionnel)</label>
     <input type="file" id="imageInput" accept="image/*" />
@@ -266,7 +266,6 @@
   <script>
     let rawGeneratedText = "";
 
-    // Charger la clé sauvegardée au démarrage
     window.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("gemini_api_key");
       if (savedKey) {
@@ -300,21 +299,19 @@
       const generateBtn = document.getElementById("generateBtn");
 
       if (!apiKey) { 
-        alert("Veuillez saisir votre clé API Gemini !"); 
+        alert("Ajoute ta clé API Gemini !"); 
         apiKeyInput.focus();
         return; 
       }
 
       if (!productInput && !imageInput.files[0]) { 
-        alert("Saisissez une description ou ajoutez une photo de votre produit !"); 
+        alert("Saisis une description ou ajoute une photo de ton produit !"); 
         return; 
       }
 
-      // Sauvegarder la clé localement
       localStorage.setItem("gemini_api_key", apiKey);
 
-      // UI en état de chargement
-      resultDiv.innerHTML = "⏳ <em>Génération de votre fiche produit en cours par l'IA...</em>";
+      resultDiv.innerHTML = "⏳ <em>Génération de ta fiche produit en cours par l'IA...</em>";
       copyBtn.style.display = "none";
       downloadBtn.style.display = "none";
       generateBtn.disabled = true;
@@ -366,7 +363,7 @@ Voici les informations textuelles fournies par l'utilisateur : ${productInput ||
         }
       }
 
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
 
       try {
         const response = await fetch(endpoint, {
@@ -386,13 +383,13 @@ Voici les informations textuelles fournies par l'utilisateur : ${productInput ||
               <div class="error-box">
                 <strong>⏳ Limite de requêtes atteinte :</strong><br>
                 L'offre gratuite de l'API Gemini autorise un maximum de 5 requêtes par minute.<br>
-                Veuillez patienter <strong>1 minute</strong> avant de relancer une génération.
+                Patiente environ <strong>1 minute</strong> avant de relancer une génération.
               </div>`;
           } else if (status === 400 || errorMsg.includes("API key")) {
             resultDiv.innerHTML = `
               <div class="error-box">
                 <strong>🔑 Clé API invalide :</strong><br>
-                Vérifiez que votre clé API Gemini est correcte et active sur Google AI Studio.
+                Vérifie que ta clé API Gemini est correcte et active sur Google AI Studio.
               </div>`;
           } else {
             resultDiv.innerHTML = `
@@ -409,7 +406,7 @@ Voici les informations textuelles fournies par l'utilisateur : ${productInput ||
       } catch (error) {
         resultDiv.innerHTML = `
           <div class="error-box">
-            <strong>Erreur réseau :</strong> Impossible de contacter l'API Google Gemini. Vérifiez votre connexion internet.
+            <strong>Erreur réseau :</strong> Impossible de contacter l'API Google Gemini. Vérifie ta connexion internet.
           </div>`;
         console.error(error);
       } finally {
