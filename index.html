@@ -16,10 +16,12 @@
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 
+    <!-- Markdown Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
       :root {
         --bg: #0b0f19;
@@ -29,10 +31,11 @@
         --accent-hover: #38bdf8;
         --text: #f8fafc;
         --text-muted: #94a3b8;
+        --danger: #ef4444;
       }
 
       body { 
-        font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
         background-color: var(--bg); 
         color: var(--text); 
         display: flex; 
@@ -82,7 +85,13 @@
         letter-spacing: 0.5px;
       }
 
-      input[type="password"], textarea, input[type="file"] { 
+      .api-key-container {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      input[type="password"], input[type="text"], textarea, input[type="file"] { 
         width: 100%; 
         padding: 14px; 
         border-radius: 10px; 
@@ -90,10 +99,27 @@
         background: #0f172a; 
         color: #fff; 
         box-sizing: border-box; 
-        margin-bottom: 8px; 
         font-family: inherit;
         font-size: 14px;
         transition: all 0.2s ease;
+      }
+
+      .btn-sm {
+        background: #0f172a;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0 16px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+      }
+
+      .btn-sm:hover {
+        background: #1e293b;
+        color: #fff;
       }
 
       .help-text {
@@ -116,6 +142,8 @@
 
       textarea {
         margin-bottom: 20px;
+        height: 100px;
+        resize: vertical;
       }
 
       input:focus, textarea:focus {
@@ -123,8 +151,6 @@
         border-color: var(--accent-hover);
         box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
       }
-
-      textarea { height: 90px; resize: vertical; }
 
       .btn-main { 
         background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); 
@@ -143,6 +169,12 @@
       .btn-main:hover { 
         background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
         transform: translateY(-1px);
+      }
+
+      .btn-main:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
       }
 
       .actions {
@@ -180,6 +212,16 @@
         line-height: 1.7;
         font-size: 15px;
         color: #cbd5e1;
+        min-height: 80px;
+      }
+
+      .error-box {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        padding: 16px;
+        border-radius: 10px;
+        font-size: 14px;
       }
 
       #result h1, #result h2, #result h3 { color: #fff; margin-top: 24px; margin-bottom: 12px; font-weight: 700; }
@@ -196,19 +238,22 @@
     <h1>Générateur de Fiches Produits</h1>
     
     <label for="apiKey">Clé API Gemini</label>
-    <input type="password" id="apiKey" placeholder="Colle ta clé API Gemini..." />
+    <div class="api-key-container">
+      <input type="password" id="apiKey" placeholder="Colle ta clé API Gemini..." />
+      <button class="btn-sm" id="clearKeyBtn" onclick="clearApiKey()" title="Effacer la clé enregistrée">Effacer</button>
+    </div>
     <p class="help-text">
       🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Obtenir une clé gratuite Gemini sur Google AI Studio</a><br>
-      🔒 <em>Votre clé n'est conservée ni enregistrée sur aucun serveur. Elle reste locale à votre navigateur.</em>
+      🔒 <em>Votre clé est stockée uniquement sur votre navigateur (localStorage). Aucun serveur tiers n'y a accès.</em>
     </p>
 
     <label for="prompt">Description du produit (optionnelle si image)</label>
-    <textarea id="prompt" placeholder="Ex: Gourde isotherme en inox 750ml, noir mat..."></textarea>
+    <textarea id="prompt" placeholder="Ex: Gourde isotherme en inox 750ml, noir mat, garde au froid 24h..."></textarea>
 
     <label for="imageInput">Photo du produit (optionnel)</label>
     <input type="file" id="imageInput" accept="image/*" />
     
-    <button class="btn-main" onclick="generateText()">Générer la Fiche Produit</button>
+    <button class="btn-main" id="generateBtn" onclick="generateText()">Générer la Fiche Produit</button>
 
     <div class="actions">
       <button id="copyBtn" class="btn-secondary" onclick="copyResult()">📋 Copier le texte</button>
@@ -221,6 +266,20 @@
   <script>
     let rawGeneratedText = "";
 
+    // Charger la clé sauvegardée au démarrage
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedKey = localStorage.getItem("gemini_api_key");
+      if (savedKey) {
+        document.getElementById("apiKey").value = savedKey;
+      }
+    });
+
+    function clearApiKey() {
+      localStorage.removeItem("gemini_api_key");
+      document.getElementById("apiKey").value = "";
+      alert("Clé API effacée du stockage local.");
+    }
+
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -231,22 +290,34 @@
     }
 
     async function generateText() {
-      const apiKey = document.getElementById("apiKey").value.trim();
-      const productInput = document.getElementById("prompt").value;
+      const apiKeyInput = document.getElementById("apiKey");
+      const apiKey = apiKeyInput.value.trim();
+      const productInput = document.getElementById("prompt").value.trim();
       const imageInput = document.getElementById("imageInput");
       const resultDiv = document.getElementById("result");
       const copyBtn = document.getElementById("copyBtn");
       const downloadBtn = document.getElementById("downloadBtn");
+      const generateBtn = document.getElementById("generateBtn");
 
-      if (!apiKey) { alert("Ajoute ta clé API !"); return; }
-      if (!productInput && !imageInput.files[0]) { 
-        alert("Saisis une description ou ajoute une image du produit !"); 
+      if (!apiKey) { 
+        alert("Veuillez saisir votre clé API Gemini !"); 
+        apiKeyInput.focus();
         return; 
       }
-      
-      resultDiv.innerHTML = "<em>Génération en cours par l'IA...</em>";
+
+      if (!productInput && !imageInput.files[0]) { 
+        alert("Saisissez une description ou ajoutez une photo de votre produit !"); 
+        return; 
+      }
+
+      // Sauvegarder la clé localement
+      localStorage.setItem("gemini_api_key", apiKey);
+
+      // UI en état de chargement
+      resultDiv.innerHTML = "⏳ <em>Génération de votre fiche produit en cours par l'IA...</em>";
       copyBtn.style.display = "none";
       downloadBtn.style.display = "none";
+      generateBtn.disabled = true;
 
       const systemPrompt = `Tu es un copywriter e-commerce professionnel chevronné. Ton objectif est de rédiger une fiche produit percutante, crédible et naturelle, comme le ferait une marque D2C haut de gamme.
 
@@ -289,50 +360,60 @@ Voici les informations textuelles fournies par l'utilisateur : ${productInput ||
             }
           });
         } catch (err) {
-          resultDiv.innerText = "Erreur lors de la lecture de l'image.";
+          resultDiv.innerHTML = `<div class="error-box"><strong>Erreur :</strong> Impossible de lire l'image sélectionnée.</div>`;
+          generateBtn.disabled = false;
           return;
         }
       }
 
-      let maxRetries = 3;
-      let attempt = 0;
-      let success = false;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-      while (attempt < maxRetries && !success) {
-        try {
-          attempt++;
-          if (attempt > 1) {
-            resultDiv.innerHTML = `<em>Serveur occupé, nouvelle tentative (${attempt}/${maxRetries})...</em>`;
-            await new Promise(resolve => setTimeout(resolve, 2000));
-          }
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: [{ parts: parts }] })
+        });
+        
+        const data = await response.json();
 
-          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: [{ parts: parts }] })
-          });
-          
-          const data = await response.json();
-          
-          if (data.error) {
-            if (data.error.message.includes("high demand") && attempt < maxRetries) {
-              continue;
-            }
-            resultDiv.innerText = "Erreur API : " + data.error.message;
-            success = true;
+        if (!response.ok || data.error) {
+          const status = response.status;
+          const errorMsg = data.error?.message || "Erreur inconnue";
+
+          if (status === 429 || errorMsg.includes("quota") || errorMsg.includes("exceeded")) {
+            resultDiv.innerHTML = `
+              <div class="error-box">
+                <strong>⏳ Limite de requêtes atteinte :</strong><br>
+                L'offre gratuite de l'API Gemini autorise un maximum de 5 requêtes par minute.<br>
+                Veuillez patienter <strong>1 minute</strong> avant de relancer une génération.
+              </div>`;
+          } else if (status === 400 || errorMsg.includes("API key")) {
+            resultDiv.innerHTML = `
+              <div class="error-box">
+                <strong>🔑 Clé API invalide :</strong><br>
+                Vérifiez que votre clé API Gemini est correcte et active sur Google AI Studio.
+              </div>`;
           } else {
-            rawGeneratedText = data.candidates[0].content.parts[0].text;
-            resultDiv.innerHTML = marked.parse(rawGeneratedText);
-            copyBtn.style.display = "block";
-            downloadBtn.style.display = "block";
-            success = true;
+            resultDiv.innerHTML = `
+              <div class="error-box">
+                <strong>Erreur API (${status}) :</strong> ${errorMsg}
+              </div>`;
           }
-        } catch (error) {
-          if (attempt >= maxRetries) {
-            resultDiv.innerText = "Erreur lors de la connexion à l'API.";
-            console.error(error);
-          }
+        } else {
+          rawGeneratedText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Aucun texte n'a été généré.";
+          resultDiv.innerHTML = marked.parse(rawGeneratedText);
+          copyBtn.style.display = "block";
+          downloadBtn.style.display = "block";
         }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="error-box">
+            <strong>Erreur réseau :</strong> Impossible de contacter l'API Google Gemini. Vérifiez votre connexion internet.
+          </div>`;
+        console.error(error);
+      } finally {
+        generateBtn.disabled = false;
       }
     }
 
